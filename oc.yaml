@@ -45,7 +45,7 @@ spec:
     app: mi-app-2
   ports:
     - protocol: TCP
-      port: 4001
+      port: 4000
       targetPort: 3000
   type: ClusterIP
 ---
