@@ -4,21 +4,20 @@ metadata:
   name: mi-deployment-2
   namespace: k-att-y70-dev
   labels:
-    app: mi-app
+    app: mi-app-2
     areanegocio: tecnologia
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mi-app
+      app: mi-app-2
   template:
     metadata:
       labels:
-        app: mi-app
+        app: mi-app-2
     spec:
       containers:
         - name: contenedor-principal
-          #image: image-registry.openshift-image-registry.svc:5000/k-att-y70-dev/ejercicioclase-git-app-phyton:build-{{ tag }}
           image: boriscutos/segundodeploy:build-{{ tag }}
           imagePullPolicy: Always
           ports:
@@ -32,35 +31,28 @@ spec:
               memory: "1500Mi"
           envFrom:
             - configMapRef:
-                name: mi-configmap
+                name: mi-configmap-2
             - secretRef:
-                name: mi-secret
-          #volumeMounts:
-            #- name: datos
-              #mountPath: "/app/data"
-      #volumes:
-        #- name: datos
-          #persistentVolumeClaim:
-            #claimName:  mi-pvc-v2
+                name: mi-secret-2
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mi-servicio
-  namespace: k-att-y70-dev  # Asegúrate de que coincida con tu Deployment
+  name: mi-servicio-2
+  namespace: k-att-y70-dev
 spec:
   selector:
-    app: mi-app  # Debe coincidir con las labels del Deployment
+    app: mi-app-2
   ports:
     - protocol: TCP
-      port: 4000        # Puerto del Service
-      targetPort: 3000  # Puerto del contenedor
-  type: ClusterIP     # Cambia a NodePort o LoadBalancer si quieres acceso externo
+      port: 4001
+      targetPort: 3000
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mi-configmap
+  name: mi-configmap-2
   namespace: k-att-y70-dev
 data:
   DATABASE: "192.168.1.1"
@@ -68,17 +60,16 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: mi-secret
+  name: mi-secret-2
   namespace: k-att-y70-dev
 type: Opaque
 data:
-  PASSWORD: aG9sYQ==
-
+  PASSWORD: aG9sYTI=   # "hola2" en base64, ejemplo
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: mi-hpa
+  name: mi-hpa-2
   namespace: k-att-y70-dev
 spec:
   scaleTargetRef:
@@ -94,7 +85,6 @@ spec:
       target:
         type: Utilization
         averageUtilization: 100
-
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
