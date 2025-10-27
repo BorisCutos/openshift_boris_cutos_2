@@ -1,6 +1,5 @@
 # Imagen base
-#FROM adonispaz9506/holamundobase:1
-FROM boriscutos/segundodeploy:1
+FROM python:3.14-slim
 
 
 # Establece el directorio de trabajo
