@@ -1,5 +1,6 @@
 # Imagen base
-FROM adonispaz9506/holamundobase:1
+#FROM adonispaz9506/holamundobase:1
+FROM boriscutos/segundodeploy:1
 
 
 # Establece el directorio de trabajo
@@ -12,9 +13,9 @@ COPY app.py .
 # Instala Flask
 RUN pip install flask
 
-RUN chown -R appuser:appgroup /app
+#RUN chown -R appuser:appgroup /app
 
-USER appuser
+#USER appuser
 # Expone el puerto en el que correrá la app
 EXPOSE 3000
 
