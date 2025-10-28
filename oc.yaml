@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mi-deployment-12
+  name: mi-deployment-secundario
   namespace: k-att-y70-dev
   labels:
-    app: mi-app-12
+    app: mi-app-secundario
     areanegocio: tecnologia
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mi-app-12
+      app: mi-app-secundario
   template:
     metadata:
       labels:
-        app: mi-app-12
+        app: mi-app-secundario
     spec:
       containers:
         - name: contenedor-principal
@@ -31,18 +31,18 @@ spec:
               memory: "1500Mi"
           envFrom:
             - configMapRef:
-                name: mi-configmap-2
+                name: mi-configmap-secundario
             - secretRef:
-                name: mi-secret-2
+                name: mi-secret-secundario
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mi-servicio-12
+  name: mi-servicio-secundario
   namespace: k-att-y70-dev
 spec:
   selector:
-    app: mi-app-12
+    app: mi-app-secundario
   ports:
     - protocol: TCP
       port: 4000
@@ -52,7 +52,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mi-configmap-2
+  name: mi-configmap-secundario
   namespace: k-att-y70-dev
 data:
   DATABASE: "192.168.1.1"
@@ -60,7 +60,7 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: mi-secret-2
+  name: mi-secret-secundario
   namespace: k-att-y70-dev
 type: Opaque
 data:
@@ -69,13 +69,13 @@ data:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: mi-hpa-2
+  name: mi-hpa-secundario
   namespace: k-att-y70-dev
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: deployment
-    name: mi-deployment-12
+    name: mi-deployment-secundario
   minReplicas: 1
   maxReplicas: 5
   metrics:
@@ -89,7 +89,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mi-pvc-v12
+  name: mi-pvc-vsecundario
   namespace: k-att-y70-dev
 spec:
   accessModes:
